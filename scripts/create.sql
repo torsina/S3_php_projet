@@ -10,7 +10,7 @@ user:
 travel:
     -id
     -ownerId
-    -desc
+    -description
     -createdDate
     -startDate
     -endDate
@@ -44,8 +44,8 @@ CREATE TABLE user (
 CREATE TABLE travel (
     id SERIAL,
     ownerId INTEGER NOT NULL,
-    desc VARCHAR(500) DEFAULT '',
-    createdDate DATE DEFAULT CURRENT_DATE,
+    description VARCHAR(500) DEFAULT '',
+    createdDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     startDate DATE NOT NULL,
     endDate DATE NOT NULL,
     price INTEGER NOT NULL,
@@ -61,7 +61,7 @@ CREATE TABLE traveler (
     userId INTEGER NOT NULL,
     travelId INTEGER NOT NULL,
     price INTEGER NOT NULL CHECK(price > 0),
-    orderedDate DATE DEFAULT CURRENT_DATE,
+    orderedDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
     FOREIGN KEY(userId) REFERENCES user(id),
     FOREIGN KEY(travelId) REFERENCES travel(id)

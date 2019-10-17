@@ -14,6 +14,8 @@ class CDatabase extends IDatabase
     // create
     protected function create()
     {
+        $sql = file_get_contents("scripts/create.sql");
+        return $this->pdo->exec($sql);
         // TODO: Implement create() method.
     }
 
@@ -25,12 +27,24 @@ class CDatabase extends IDatabase
     public function connect($host = "localhost", $user = "root", $pass = "")
     {
         try {
-            $pdo = new PDO('mysql:host='.$host.';dbname=website', $user, $pass, array(
+            $this->pdo = new PDO('mysql:host='.$host, $user, $pass, array(
                 PDO::ATTR_PERSISTENT => true
             ));
+            $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            // check if db exists
+            $stmt = $this->pdo->query("SELECT COUNT(*) FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = 'website'");
+            $isDbPresent = (bool) $stmt->fetchColumn();
+
+            $this->create();
+            $this->pdo->query("use website");
         } catch (PDOException $e) {
             print "Error !: " . $e->getMessage() . "<br/>";
             die();
         }
+    }
+
+    public function __construct()
+    {
+
     }
 }

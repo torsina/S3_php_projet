@@ -1,5 +1,6 @@
 <?php
 //global $model;
+
 ?>
 
 <!DOCTYPE html>
@@ -9,6 +10,6 @@
         <title>Main page</title>
     </head>
     <body>
-        <p><?=$model?></p>
+        <p><?=$model->foo?></p>
     </body>
 </html>
