@@ -10,8 +10,8 @@ abstract class IDatabase
     abstract function connect($host, $user, $pass);
 
     abstract function getTravels();
-    abstract function getTravel();
-    abstract function createTravel();
+    abstract function getTravel($id);
+    abstract function createTravel(Travel $travel);
     abstract function editTravel(Travel $travel);
 
     abstract function getUsers();

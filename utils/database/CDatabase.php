@@ -26,13 +26,13 @@ class CDatabase extends IDatabase
     public function connect($host = "localhost", $user = "root", $pass = "")
     {
         try {
-            $this->pdo = new PDO('mysql:host='.$host, $user, $pass, array(
+            $this->pdo = new PDO('mysql:host=' . $host, $user, $pass, array(
                 PDO::ATTR_PERSISTENT => true
             ));
             $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             // check if db exists
             $stmt = $this->pdo->query("SELECT COUNT(*) FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = 'website'");
-            $isDbPresent = (bool) $stmt->fetchColumn();
+            $isDbPresent = (bool)$stmt->fetchColumn();
 
             $this->create();
             $this->pdo->query("use website");
@@ -52,14 +52,37 @@ class CDatabase extends IDatabase
         // TODO: Implement getTravels() method.
     }
 
-    function getTravel()
+    function getTravel($id)
     {
-        // TODO: Implement getTravel() method.
+        $req = $this->pdo->prepare("SELECT * FROM travel WHERE id=:id");
+        $req->bindParam(":id", $id);
+        $doesExist = $req->execute();
+        if (!$doesExist) return NULL;
+        $res = $req->fetch(PDO::FETCH_ASSOC);
+
+        $travel = new Travel($this);
+        $travel->initialize($res["id"],
+            $res["ownerId"],
+            $res["description"],
+            $res["createdDate"],
+            $res["startDate"],
+            $res["endDate"],
+            $res["price"],
+            $res["location"],
+            $res["capacity"],
+            $res["sold"]);
+        return $travel;
     }
 
-    function createTravel()
+    function createTravel(Travel $travel)
     {
-        // TODO: Implement createTravel() method.
+        $isTravelRegistered = $this->getTravel($travel->getId());
+        if($isTravelRegistered == NULL) return false;
+
+        $insert = $this->pdo->prepare("INSERT INTO website.travel (id, ownerId, createdDate, startDate, endDate, price, location, capacity) VALUES "
+        ."(:id, :ownerId, :createdDate, :startDate, :endDate, :price, :location, :capacity)");
+
+
     }
 
     function editTravel(Travel $travel)
@@ -74,10 +97,10 @@ class CDatabase extends IDatabase
 
     function getUser($id)
     {
-        $req = $this->pdo->prepare("SELECT * FROM user WHERE id=:id");
+        $req = $this->pdo->prepare("SELECT * FROM website.user WHERE id=:id");
         $req->bindParam(":id", $id);
         $doesExist = $req->execute();
-        if(!$doesExist) return NULL;
+        if (!$doesExist) return NULL;
         $res = $req->fetch(PDO::FETCH_ASSOC);
 
         $user = new User($this);
@@ -93,23 +116,20 @@ class CDatabase extends IDatabase
     function createUser(User $user)
     {
         // check that user exists
-        $checkRequest = $this->pdo->prepare("SELECT id FROM user WHERE id=:id");
-        $checkRequest->bindParam(":id", $user->getId());
-        $checkRequest->execute();
-        $isUserRegistered = $checkRequest->rowCount();
-        if(!$isUserRegistered) {
-            $insert = $this->pdo->prepare("INSERT INTO user (id, firstName, lastName, displayName, email, password, permission) VALUES "
-                ."(:id, :firstName, :lastName, :displayName, :email, :password, :permission)");
-            $insert->bindParam(":id", $user->getId());
-            $insert->bindParam(":firstName", $user->getFirstName());
-            $insert->bindParam(":lastName", $user->getLastName());
-            $insert->bindParam(":displayName", $user->getDisplayName());
-            $insert->bindParam(":email", $user->getEmail());
-            $insert->bindParam(":password", $user->getPassword());
-            $insert->bindParam(":permission", $user->getPermission());
-            return $insert->execute();
-        }
-        return false;
+        $isUserRegistered = $this->getUser($user->getId());
+        if ($isUserRegistered == NULL) return false;
+
+        $insert = $this->pdo->prepare("INSERT INTO website.user (id, firstName, lastName, displayName, email, password, permission) VALUES "
+            . "(:id, :firstName, :lastName, :displayName, :email, :password, :permission)");
+        $insert->bindParam(":id", $user->getId());
+        $insert->bindParam(":firstName", $user->getFirstName());
+        $insert->bindParam(":lastName", $user->getLastName());
+        $insert->bindParam(":displayName", $user->getDisplayName());
+        $insert->bindParam(":email", $user->getEmail());
+        $insert->bindParam(":password", $user->getPassword());
+        $insert->bindParam(":permission", $user->getPermission());
+        return $insert->execute();
+
     }
 
     function editUser($user)

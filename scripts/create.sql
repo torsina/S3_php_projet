@@ -45,7 +45,7 @@ CREATE TABLE travel (
     id CHAR(36) NOT NULL, -- size of uuid string
     ownerId CHAR(36) NOT NULL, -- size of uuid string
     description VARCHAR(500) DEFAULT '',
-    createdDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    createdDate DATETIME NOT NULL,
     startDate DATE NOT NULL,
     endDate DATE NOT NULL,
     price INTEGER NOT NULL,
