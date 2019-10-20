@@ -1,7 +1,7 @@
 <?php
 
 
-abstract class IDatabase
+abstract class ADatabase
 {
     protected abstract function test();
     protected abstract function create();
@@ -18,4 +18,6 @@ abstract class IDatabase
     abstract function getUser($id);
     abstract function createUser(User $user);
     abstract function editUser(User $user);
+
+    abstract function getPublicTravelsData();
 }

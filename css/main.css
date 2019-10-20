@@ -1,0 +1,107 @@
+/*
+main colors
+ */
+:root {
+    --orange-1:#FF6700;
+    --orange-2:#FF8A3D;
+    --blue-1:#0062FF;
+    --blue-2:#5C9AFF;
+}
+
+/*
+remove link highlight from bootstrap
+ */
+a { outline: none!important;
+    color:#000;}
+a:hover {
+    color:#000;
+}
+
+.my-navbar {
+    background-color: var(--orange-1);
+}
+
+.my-navbar-brand {
+    background-color: var(--orange-2);
+    border-radius: 5px;
+    padding: 0 0.25vw;
+
+
+}
+
+.login {
+    margin-top: 1vh;
+}
+
+.login-form {
+    margin-left: 1vw;
+    margin-right: 1vw;
+}
+
+.btn-outline-blue {
+    color: var(--blue-1);
+    border-color: var(--blue-2)
+}
+
+.btn-outline-blue:hover {
+    color: #fff;
+    background-color: var(--blue-1);
+    border-color: var(--blue-2);
+}
+
+.btn-outline-orange {
+    color: var(--orange-1);
+    border-color: var(--orange-2)
+}
+
+.btn-outline-orange:hover {
+    color: #fff;
+    background-color: var(--orange-1);
+    border-color: var(--orange-2);
+}
+
+
+.carousel-inner > div {
+    height: 60vh;
+    overflow: hidden;
+}
+
+.carousel-inner > .carousel-item > img {
+    position: relative;
+}
+
+.carousel-img-1 {
+    top: -200px;
+
+}
+
+.carousel-img-2 {
+    height: 80vh;
+}
+
+.carousel-img-3 {
+    top: -150px;
+}
+
+.search-bar {
+    margin-left: 15vw;
+    margin-right:15vw;
+    margin-top: 5vh;
+    border-radius: 5px;
+    border-style: solid;
+    border-color: #0062FF;
+
+}
+
+.search-form {
+    width: 100%
+}
+
+.search-form-line {
+    width: 33%
+}
+
+.search-form-icon {
+    margin: 10px;
+    height: 2vh;
+}

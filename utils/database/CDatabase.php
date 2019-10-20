@@ -1,7 +1,10 @@
 <?php
-require_once("IDatabase.php");
+require_once("ADatabase.php");
+require_once("utils/datatypes/Travel.php");
+require_once("utils/datatypes/User.php");
 
-class CDatabase extends IDatabase
+
+class CDatabase extends ADatabase
 {
     private $pdo;
 
@@ -49,12 +52,30 @@ class CDatabase extends IDatabase
 
     function getTravels()
     {
-        // TODO: Implement getTravels() method.
+        $req = $this->pdo->prepare("SELECT * FROM website.travel");
+        $req->execute();
+        $rawTravels = $req->fetchAll(PDO::FETCH_ASSOC);
+        $result = [];
+        foreach ($rawTravels as $rawTravel) {
+            $travel = new Travel($this);
+            $travel->initialize($rawTravel["id"],
+                $rawTravel["ownerId"],
+                $rawTravel["description"],
+                $rawTravel["createdDate"],
+                $rawTravel["startDate"],
+                $rawTravel["endDate"],
+                $rawTravel["price"],
+                $rawTravel["location"],
+                $rawTravel["capacity"],
+                $rawTravel["sold"]);
+            array_push($result, $travel);
+        }
+        return $result;
     }
 
     function getTravel($id)
     {
-        $req = $this->pdo->prepare("SELECT * FROM travel WHERE id=:id");
+        $req = $this->pdo->prepare("SELECT * FROM website.travel WHERE id=:id");
         $req->bindParam(":id", $id);
         $doesExist = $req->execute();
         if (!$doesExist) return NULL;
@@ -77,12 +98,22 @@ class CDatabase extends IDatabase
     function createTravel(Travel $travel)
     {
         $isTravelRegistered = $this->getTravel($travel->getId());
-        if($isTravelRegistered == NULL) return false;
+        if ($isTravelRegistered == NULL) return false;
 
-        $insert = $this->pdo->prepare("INSERT INTO website.travel (id, ownerId, createdDate, startDate, endDate, price, location, capacity) VALUES "
-        ."(:id, :ownerId, :createdDate, :startDate, :endDate, :price, :location, :capacity)");
+        $insert = $this->pdo->prepare("INSERT INTO website.travel (id, ownerId, createdDate, startDate, endDate, price, location, capacity, sold) VALUES "
+            . "(:id, :ownerId, :createdDate, :startDate, :endDate, :price, :location, :capacity, :sold)");
 
+        $insert->bindParam(":id", $travel->getId());
+        $insert->bindParam(":ownerId", $travel->getOwnerId());
+        $insert->bindParam(":createdDate", $travel->getCreatedDate());
+        $insert->bindParam(":startDate", $travel->getStartDate());
+        $insert->bindParam(":endDate", $travel->getEndDate());
+        $insert->bindParam(":price", $travel->getPrice());
+        $insert->bindParam(":location", $travel->getLocation());
+        $insert->bindParam(":capacity", $travel->getCapacity());
+        $insert->bindParam(":sold", $travel->getSold());
 
+        return $insert->execute();
     }
 
     function editTravel(Travel $travel)
@@ -137,4 +168,11 @@ class CDatabase extends IDatabase
         // TODO: Implement editUser() method.
     }
 
+    function getPublicTravelsData()
+    {
+        $req = $this->pdo->prepare("SELECT T.*, U.displayName FROM website.travel T JOIN website.user U ON T.ownerId=U.id");
+        $req->execute();
+        return $req->fetchAll(PDO::FETCH_ASSOC);
+
+    }
 }

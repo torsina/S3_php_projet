@@ -41,6 +41,11 @@ CREATE TABLE user (
     PRIMARY KEY(id)
 );
 
+/**
+need to add next:
+- name
+- picture
+ */
 CREATE TABLE travel (
     id CHAR(36) NOT NULL, -- size of uuid string
     ownerId CHAR(36) NOT NULL, -- size of uuid string
@@ -66,3 +71,9 @@ CREATE TABLE traveler (
     FOREIGN KEY(userId) REFERENCES user(id),
     FOREIGN KEY(travelId) REFERENCES travel(id)
 );
+
+INSERT INTO user (id, firstName, lastName, displayName, email, password, permission) VALUES
+('f03c4a5a-7954-4f6f-b628-4bc2454e9888', 'foo', 'bar', 'foo bar', 'foo@bar.com', '309ecc489c12d6eb4cc40f50c902f2b4d0ed77ee511a7c7a9bcd3ca86d4cd86f989dd35bc5ff499670da34255b45b0cfd830e81f605dcf7dc5542e93ae9cd76f', 2);
+
+INSERT INTO travel (id, ownerId, description, createdDate, startDate, endDate, price, location, capacity, sold) VALUES
+('ea4da211-4c89-42c4-94e5-a29c51ed9aa8', 'f03c4a5a-7954-4f6f-b628-4bc2454e9888', 'A trip to Paris', '2019-10-18 16:41:46', '2019-11-19 16:41:46', '2019-12-19 16:41:46', 250, 'Paris', 100, 5)

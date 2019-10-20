@@ -1,12 +1,16 @@
 <?php
 
-class travelModel
+class TravelModel
 {
     public $travels;
-    // array of object type hinting workaround using variadic arguments
-    // from: https://stackoverflow.com/a/34273821
-    public function __construct(Travel ...$travels)
+    public $columns;
+
+    public function __construct($travels)
     {
-        $this->travels = $travels;
+        $this->columns = array_keys($travels[0]);
+        $this->data = [];
+        foreach($travels as $travel) {
+            array_push($this->data, array_values($travel));
+        }
     }
 }

@@ -7,11 +7,18 @@
     <body>
         <p>Travels</p>
         <table>
-        <?php foreach($model->travels as $travel) :?>
             <tr>
-                <td><?=$travel->?></td>
+                <?php foreach($model->columns as $column) :?>
+                    <td><?=$column?></td>
+                <?php endforeach;?>
             </tr>
-        <?php endforeach;?>
+            <?php foreach($model->data as $row) :?>
+                <tr>
+                <?php foreach($row as $value) :?>
+                    <td><?=$value?></td>
+                <?php endforeach;?>
+                </tr>
+            <?php endforeach;?>
         </table>
     </body>
 </html>

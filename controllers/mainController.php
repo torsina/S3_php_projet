@@ -1,9 +1,9 @@
 <?php
 require_once("models/mainModel.php");
 
-class mainController implements IController
+class MainController implements IController
 {
-    static function action($action)
+    static function action($db, $action)
     {
         switch ($action) {
             case "":
@@ -11,7 +11,7 @@ class mainController implements IController
                 //$models =....;
                 // and finally...
                 global $model;
-                $model = new mainModel();
+                $model = new MainModel();
                 include "views\mainView.php";
                 break;
         }

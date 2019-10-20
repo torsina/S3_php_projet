@@ -1,7 +1,7 @@
 <?php
 
 
-class mainModel
+class MainModel
 {
     public $foo;
     public function __construct()

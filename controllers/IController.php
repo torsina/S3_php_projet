@@ -3,5 +3,5 @@
 
 interface IController
 {
-    static function action($action);
+    static function action($db, $action);
 }

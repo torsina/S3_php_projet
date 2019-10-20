@@ -40,6 +40,19 @@ class Travel
         $this->db = $db;
     }
 
+    /**
+     * 
+     * @param string $ownerId
+     * @param string $description
+     * @param string $createdDate
+     * @param string $startDate
+     * @param string $endDate
+     * @param int $price
+     * @param string $location
+     * @param int $capacity
+     * @param int $sold
+     * @return bool
+     */
     function create(string $ownerId,
                     string $description,
                     string $createdDate,
@@ -53,7 +66,7 @@ class Travel
         if (!$this->initialized) {
             // check if owner exists
             $owner = $this->db->getUser($ownerId);
-            if($owner == NULL) return false;
+            if ($owner == NULL) return false;
 
             $this->id = Uuid::uuid4();
             $this->description = htmlspecialchars($description);
@@ -73,9 +86,29 @@ class Travel
 
     }
 
-    function initialize()
+    function initialize(string $id,
+                        string $ownerId,
+                        string $description,
+                        string $createdDate,
+                        string $startDate,
+                        string $endDate,
+                        int $price,
+                        string $location,
+                        int $capacity,
+                        int $sold)
     {
+        $this->id = $id;
+        $this->ownerId = $ownerId;
+        $this->description = $description;
+        $this->createdDate = $createdDate;
+        $this->startDate = $startDate;
+        $this->endDate = $endDate;
+        $this->price = $price;
+        $this->location = $location;
+        $this->capacity = $capacity;
+        $this->sold = $sold;
 
+        $this->initialized = true;
     }
 
     /**

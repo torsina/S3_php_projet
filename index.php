@@ -3,18 +3,18 @@
 $request = $_SERVER['REQUEST_URI'];
 require_once("controllers/IController.php");
 require_once("utils/database/CDatabase.php");
-$DATABASE = new CDatabase();
-$DATABASE->connect();
-switch ($request) {
+$db = new CDatabase();
+$db->connect();
+$request = explode("?", $request);
+switch ($request[0]) {
     case '/' :
     case '' :
-        require_once("controllers/mainController.php");
-        mainController::action("");
-        break;
-    case '/about' :
-        require __DIR__ . '/views/about.php';
-        break;
     default:
-        require __DIR__ . '/views/404.php';
+        require_once("controllers/mainController.php");
+        MainController::action($db, "");
+        break;
+    case '/travel' :
+        require_once("controllers/travelController.php");
+        TravelController::action($db, "");
         break;
 }
