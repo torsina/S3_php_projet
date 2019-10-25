@@ -60,6 +60,8 @@ class CDatabase extends ADatabase
             $travel = new Travel($this);
             $travel->initialize($rawTravel["id"],
                 $rawTravel["ownerId"],
+                $rawTravel["name"],
+                $rawTravel["image"],
                 $rawTravel["description"],
                 $rawTravel["createdDate"],
                 $rawTravel["startDate"],
@@ -84,6 +86,8 @@ class CDatabase extends ADatabase
         $travel = new Travel($this);
         $travel->initialize($res["id"],
             $res["ownerId"],
+            $res["name"],
+            $res["image"],
             $res["description"],
             $res["createdDate"],
             $res["startDate"],
@@ -100,11 +104,16 @@ class CDatabase extends ADatabase
         $isTravelRegistered = $this->getTravel($travel->getId());
         if ($isTravelRegistered == NULL) return false;
 
-        $insert = $this->pdo->prepare("INSERT INTO website.travel (id, ownerId, createdDate, startDate, endDate, price, location, capacity, sold) VALUES "
-            . "(:id, :ownerId, :createdDate, :startDate, :endDate, :price, :location, :capacity, :sold)");
+        $insert = $this->pdo->prepare("INSERT INTO website.travel (id, ownerId, name, image, createdDate, startDate, endDate, price, location, capacity, sold) VALUES "
+            . "(:id, :ownerId, :name, :image, :createdDate, :startDate, :endDate, :price, :location, :capacity, :sold)");
 
         $insert->bindParam(":id", $travel->getId());
         $insert->bindParam(":ownerId", $travel->getOwnerId());
+
+        $insert->bindParam(":name", $travel->getName());
+        $insert->bindParam(":image", $travel->getImage());
+
+
         $insert->bindParam(":createdDate", $travel->getCreatedDate());
         $insert->bindParam(":startDate", $travel->getStartDate());
         $insert->bindParam(":endDate", $travel->getEndDate());

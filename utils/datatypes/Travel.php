@@ -26,6 +26,8 @@ class Travel
 
     private $id;
     private $ownerId;
+    private $name;
+    private $image;
     private $description;
     private $createdDate;
     private $startDate;
@@ -54,6 +56,8 @@ class Travel
      * @return bool
      */
     function create(string $ownerId,
+                    string $name,
+                    string $image,
                     string $description,
                     string $createdDate,
                     string $startDate,
@@ -69,6 +73,9 @@ class Travel
             if ($owner == NULL) return false;
 
             $this->id = Uuid::uuid4();
+            $this->name = htmlspecialchars($name);
+            // TODO: check that image exists
+            $this->image = htmlspecialchars($image);
             $this->description = htmlspecialchars($description);
             $this->createdDate = htmlspecialchars($createdDate);
             $this->startDate = htmlspecialchars($startDate);
@@ -88,6 +95,8 @@ class Travel
 
     function initialize(string $id,
                         string $ownerId,
+                        string $name,
+                        string $image,
                         string $description,
                         string $createdDate,
                         string $startDate,
@@ -99,6 +108,8 @@ class Travel
     {
         $this->id = $id;
         $this->ownerId = $ownerId;
+        $this->name = $name;
+        $this->image = $image;
         $this->description = $description;
         $this->createdDate = $createdDate;
         $this->startDate = $startDate;
@@ -189,5 +200,18 @@ class Travel
     public function getSold()
     {
         return $this->sold;
+    }
+
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getImage()
+    {
+        return $this->image;
     }
 }

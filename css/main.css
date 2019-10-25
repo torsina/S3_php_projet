@@ -89,7 +89,7 @@ a:hover {
     margin-top: 5vh;
     border-radius: 5px;
     border-style: solid;
-    border-color: #0062FF;
+    border-color: var(--blue-1);
 
 }
 
@@ -104,4 +104,14 @@ a:hover {
 .search-form-icon {
     margin: 10px;
     height: 2vh;
+}
+
+
+.search-result-box {
+    margin-left: 15vw;
+    margin-right:15vw;
+    margin-top: 5vh;
+    border-radius: 5px;
+    border-style: solid;
+    border-color: var(--blue-2);
 }

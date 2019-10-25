@@ -1,8 +1,11 @@
 <?php
 
-$request = $_SERVER['REQUEST_URI'];
+// global imports
 require_once("controllers/IController.php");
 require_once("utils/database/CDatabase.php");
+
+$request = $_SERVER['REQUEST_URI'];
+
 $db = new CDatabase();
 $db->connect();
 $request = explode("?", $request);
