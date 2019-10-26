@@ -2,19 +2,22 @@
 main colors
  */
 :root {
-    --orange-1:#FF6700;
-    --orange-2:#FF8A3D;
-    --blue-1:#0062FF;
-    --blue-2:#5C9AFF;
+    --orange-1: #FF6700;
+    --orange-2: #FF8A3D;
+    --blue-1: #0062FF;
+    --blue-2: #5C9AFF;
 }
 
 /*
 remove link highlight from bootstrap
  */
-a { outline: none!important;
-    color:#000;}
+a {
+    outline: none !important;
+    color: #000;
+}
+
 a:hover {
-    color:#000;
+    color: #000;
 }
 
 .my-navbar {
@@ -85,7 +88,7 @@ a:hover {
 
 .search-bar {
     margin-left: 15vw;
-    margin-right:15vw;
+    margin-right: 15vw;
     margin-top: 5vh;
     border-radius: 5px;
     border-style: solid;
@@ -109,9 +112,38 @@ a:hover {
 
 .search-result-box {
     margin-left: 15vw;
-    margin-right:15vw;
+    margin-right: 15vw;
     margin-top: 5vh;
+
+    padding: 1vh 1vh 1vh 1vh;
+
     border-radius: 5px;
     border-style: solid;
     border-color: var(--blue-2);
+
+}
+
+.search-result-container {
+    height: 20vh;
+}
+
+.search-result-image {
+    border-radius: 5px;
+
+    width: auto;
+    max-height: 20vh;
+}
+
+.search-result-text-list {
+    padding-left: 0;
+    list-style-type: none;
+}
+
+.search-result-info-list > li {
+    margin-top: 0.5vh;
+    margin-bottom: 0.5vh;
+}
+
+.search-result-order-list {
+
 }

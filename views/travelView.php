@@ -1,22 +1,31 @@
 <?php include("views/viewElements/header.php") ?>
 <body>
-    <?php print_r($model)?>
     <?php include("views/viewElements/navbar.php") ?>
     <?php foreach ($model->data as $row) : ?>
         <div class="search-result-box">
-            <div class="container">
+            <div class="search-result-container">
                 <div class="row justify-content-md-center">
-                    <div class="col-8">
-                        <p>owner: <?=$row["displayName"]?></p>
+                    <div class="col">
+                        <img src="images/<?= $row["image"] ?>" class="search-result-image">
                     </div>
-                    <div class="col-4"><p>oddddwner: <?=$row["displayName"]?></p></div>
+                    <div class=" col-5">
+                        <ul class="search-result-text-list search-result-info-list">
+                            <li><h2><?= $row["name"] ?></h2></li>
+                            <li><?=$row["description"]?></li>
+                            <li><?=$row["location"]?></li>
+                        </ul>
+                    </div>
+                    <div class="col">
+                        <ul class="search-result-text-list search-result-order-list">
+                            <li>PRICE</li>
+                            <li>COMMANDER</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
 
         </div>
     <?php endforeach; ?>
-
-
 
 
     <table>

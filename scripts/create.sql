@@ -75,5 +75,5 @@ INSERT INTO user (id, firstName, lastName, displayName, email, password, permiss
 INSERT INTO travel (id, ownerId, name, image, description, createdDate, startDate, endDate, price, location, capacity, sold) VALUES
 ('ea4da211-4c89-42c4-94e5-a29c51ed9aa8', 'f03c4a5a-7954-4f6f-b628-4bc2454e9888', 'A title', 'paris_1.jpg', 'A trip to Paris', '2019-10-18 16:41:46', '2019-11-19 16:41:46', '2019-12-19 16:41:46', 250, 'Paris', 100, 5);
 
-INSERT INTO travel (id, ownerId, description, createdDate, startDate, endDate, price, location, capacity, sold) VALUES
+INSERT INTO travel (id, ownerId, name, image,description, createdDate, startDate, endDate, price, location, capacity, sold) VALUES
 ('eafda211-4c89-42c4-94e5-a29c51ed9aa8', 'f03c4a5a-7954-4f6f-b628-4bc2454e9888', 'B title', 'paris_1.jpg', 'A trip to Paris', '2019-10-18 16:41:46', '2019-11-19 16:41:46', '2019-12-19 16:41:46', 250, 'Paris', 100, 5);
