@@ -30,7 +30,9 @@
             <span class="sr-only">Next</span>
         </a>
     </div>
-    <?php print_r($_SESSION)?>
+    <?php
+    print_r($_SESSION);
+    ?>
     <!-- search bar -->
     <div class="search-bar">
         <div class="row justify-content-md-center">

@@ -41,6 +41,15 @@ CREATE TABLE user (
     PRIMARY KEY(id)
 );
 
+CREATE TABLE sessions (
+    sessionId CHAR(26) NOT NULL,
+    userId CHAR(36) NOT NULL,
+    expireTime DATETIME NOT NULL,
+
+    PRIMARY KEY(sessionId),
+    FOREIGN KEY(userId) REFERENCES user(id)
+);
+
 CREATE TABLE travel (
     id CHAR(36) NOT NULL, -- size of uuid string
     ownerId CHAR(36) NOT NULL, -- size of uuid string
@@ -70,10 +79,11 @@ CREATE TABLE traveler (
 );
 
 INSERT INTO user (id, firstName, lastName, displayName, email, password, permission) VALUES
-('f03c4a5a-7954-4f6f-b628-4bc2454e9888', 'foo', 'bar', 'foo bar', 'foo@bar.com', '309ecc489c12d6eb4cc40f50c902f2b4d0ed77ee511a7c7a9bcd3ca86d4cd86f989dd35bc5ff499670da34255b45b0cfd830e81f605dcf7dc5542e93ae9cd76f', 2);
+('f03c4a5a-7954-4f6f-b628-4bc2454e9888', 'foo', 'bar', 'foo bar', 'foo@bar.com', '2ef07ac905d9f5a314495a36e95e3c2a8a3cbeca8b907fe54f848d0a55f84e07218123c329d6fd5556ba257870a977f1319b93c64f80fb4e2fd2e47778e7f6d5', 0),
+('c523337c-2c7d-45a3-9e6f-797ca5e5e91c', 'root', 'root', 'I am groot', 'root@root.com', '76c1bf61cb145fa2fa29bd38cd4a123bcac431d44a319b41e573fe4f5b85af8b783f40b528a4165d92c3a9bc65da09d1bf9921c92bfc83c9227d4c96b01c38e4', 2);
 
 INSERT INTO travel (id, ownerId, name, image, description, createdDate, startDate, endDate, price, location, capacity, sold) VALUES
-('ea4da211-4c89-42c4-94e5-a29c51ed9aa8', 'f03c4a5a-7954-4f6f-b628-4bc2454e9888', 'A title', 'paris_1.jpg', 'A trip to Paris', '2019-10-18 16:41:46', '2019-11-19 16:41:46', '2019-12-19 16:41:46', 250, 'Paris', 100, 5);
+('ea4da211-4c89-42c4-94e5-a29c51ed9aa8', 'c523337c-2c7d-45a3-9e6f-797ca5e5e91c', 'A title', 'paris_1.jpg', 'A trip to Paris', '2019-10-18 16:41:46', '2019-11-19 16:41:46', '2019-12-19 16:41:46', 250, 'Paris', 100, 5);
 
 INSERT INTO travel (id, ownerId, name, image,description, createdDate, startDate, endDate, price, location, capacity, sold) VALUES
-('eafda211-4c89-42c4-94e5-a29c51ed9aa8', 'f03c4a5a-7954-4f6f-b628-4bc2454e9888', 'B title', 'paris_1.jpg', 'A trip to Paris', '2019-10-18 16:41:46', '2019-11-19 16:41:46', '2019-12-19 16:41:46', 250, 'Paris', 100, 5);
+('eafda211-4c89-42c4-94e5-a29c51ed9aa8', 'c523337c-2c7d-45a3-9e6f-797ca5e5e91c', 'B title', 'paris_1.jpg', 'A trip to Paris', '2019-10-18 16:41:46', '2019-11-19 16:41:46', '2019-12-19 16:41:46', 250, 'Paris', 100, 5);
