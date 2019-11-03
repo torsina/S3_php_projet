@@ -165,3 +165,17 @@ a:hover {
 .register-form-box > form {
     width: 100%;
 }
+
+.travel-creation-form-box {
+    width: 25%;
+    margin-left: 5vh;
+    margin-right: auto;
+    margin-top: 5vh;
+
+
+
+    border-radius: 5px;
+    border-style: solid;
+    border-color: var(--blue-2);
+    text-align: left;
+}

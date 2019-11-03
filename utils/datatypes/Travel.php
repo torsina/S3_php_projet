@@ -67,14 +67,14 @@ class Travel
                     int $capacity,
                     int $sold)
     {
+        print_r("creating travel");
         if (!$this->initialized) {
             // check if owner exists
             $owner = $this->db->getUser($ownerId);
-            if ($owner == NULL) return false;
-
+            if ($owner === NULL) return false;
+            $this->ownerId = $ownerId;
             $this->id = Uuid::uuid4();
             $this->name = htmlspecialchars($name);
-            // TODO: check that image exists
             $this->image = htmlspecialchars($image);
             $this->description = htmlspecialchars($description);
             $this->createdDate = htmlspecialchars($createdDate);

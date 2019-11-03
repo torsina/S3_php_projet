@@ -10,6 +10,9 @@ class LoginController implements IController
             case "":
                 if(session_status() == PHP_SESSION_ACTIVE) {
                     session_destroy();
+                    session_start();
+                } else {
+                    session_start();
                 }
                 if (!isset($_POST["login"]) ||
                     !isset($_POST["password"])) {
@@ -34,10 +37,7 @@ class LoginController implements IController
                         }
                     }
                 }
-                session_id($user->getId());
-                session_start();
-                $_SESSION["foo"] = "bar";
-                $_SESSION["user"] = $user;
+                $db->setSession(session_id(), $user->getId());
                 header('Location: /');
                 break;
             case "register":

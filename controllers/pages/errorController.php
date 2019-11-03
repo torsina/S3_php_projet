@@ -11,6 +11,8 @@ class ErrorController implements IController
             case "loginNotFound":
                 $message = "This account doesn't exists.";
                 break;
+            case "permissionDenied":
+                $message = "You cannot perform this action.";
         }
         global $model;
         $model = new ErrorModel($message);

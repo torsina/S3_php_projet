@@ -20,5 +20,9 @@ abstract class ADatabase
     abstract function createUser(User $user);
     abstract function editUser(User $user);
 
+    abstract function setSession($sessId, $userId);
+    abstract function deleteSession($sessId);
+    abstract function getSession($sessId);
+
     abstract function getPublicTravelsData();
 }

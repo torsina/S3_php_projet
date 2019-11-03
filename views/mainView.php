@@ -31,7 +31,6 @@
         </a>
     </div>
     <?php
-    print_r($_SESSION);
     ?>
     <!-- search bar -->
     <div class="search-bar">

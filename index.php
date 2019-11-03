@@ -13,7 +13,14 @@ $db->connect();
 $request = explode("/", explode("?", $request)[0]);
 array_shift($request);
 
+// session handling
 session_start();
+$__sess = $db->getSession(session_id());
+if($__sess !== NULL) {
+    $__sessUser = $db->getUser($__sess["userId"]);
+    if($__sessUser !== NULL) $_SESSION["user"] = $__sessUser->export();
+}
+
 switch ($request[0]) {
     case '' :
         require_once("controllers/pages/mainController.php");
@@ -27,6 +34,11 @@ switch ($request[0]) {
         TravelController::action($db, "");
         break;
     case 'admin' :
+        if(!isset($_SESSION) || !isset($_SESSION["user"]) || $_SESSION["user"]["permission"] < 1) {
+            require_once("controllers/pages/errorController.php");
+            ErrorController::action($db, "permissionDenied");
+            break;
+        }
         require_once("controllers/pages/adminController.php");
         AdminController::action($db, "");
         break;

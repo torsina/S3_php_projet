@@ -3,7 +3,8 @@ $('.carousel').carousel({
 });
 
 $('#datepicker').datepicker({
-    format: "mm/yyyy",
+    format: "yy-mm-dd",
+    dateFormat: "yy-mm-dd",
     language: "fr",
     calendarWeeks: true,
     autoclose: true

@@ -83,6 +83,19 @@ class User
         $this->initialized = true;
     }
 
+    /**
+     * exports the data of the class to an array, because I can't store PDO instances inside _SESSION
+     */
+    function export() {
+        return ["id" => $this->getId(),
+            "firstName" => $this->getFirstName(),
+            "lastName" => $this->getLastName(),
+            "email" => $this->getEmail(),
+            "password" => $this->getPassword(),
+            "displayName" => $this->getDisplayName(),
+            "permission" => $this->getPermission()];
+    }
+
     public function getId()
     {
         return $this->id;

@@ -16,10 +16,11 @@ Comptes:
 
 ### 2:
 + En tant qu’utilisateur, je veux créer un compte avec un mdp sécurisé afin de me connecter
++ En tant qu'utilisateur, je veux me connecter et rester connecté au site
 + En tant qu’administrateur connecté ou agence de voyage connecté, je veux créer un voyage
-+ En tant qu’administrateur connecté ou agence de voyage connecté, je veux changer les caractéristiques d’un voyage
 
 ### 3:
++ En tant qu’administrateur connecté ou agence de voyage connecté, je veux changer les caractéristiques d’un voyage
 + En tant qu’utilisateur connecté, je veux réserver des voyages
 + En tant qu’utilisateur connecté, je veux voir les voyages que j’ai réserver
 

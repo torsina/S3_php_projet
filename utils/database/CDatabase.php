@@ -103,25 +103,25 @@ class CDatabase extends ADatabase
     function createTravel(Travel $travel)
     {
         $isTravelRegistered = $this->getTravel($travel->getId());
-        if ($isTravelRegistered == NULL) return false;
+        if ($isTravelRegistered !== NULL) return false;
 
         $insert = $this->pdo->prepare("INSERT INTO website.travel (id, ownerId, name, image, createdDate, startDate, endDate, price, location, capacity, sold) VALUES "
             . "(:id, :ownerId, :name, :image, :createdDate, :startDate, :endDate, :price, :location, :capacity, :sold)");
 
-        $insert->bindParam(":id", $travel->getId());
-        $insert->bindParam(":ownerId", $travel->getOwnerId());
+        $insert->bindValue(":id", $travel->getId());
+        $insert->bindValue(":ownerId", $travel->getOwnerId());
 
-        $insert->bindParam(":name", $travel->getName());
-        $insert->bindParam(":image", $travel->getImage());
+        $insert->bindValue(":name", $travel->getName());
+        $insert->bindValue(":image", $travel->getImage());
 
 
-        $insert->bindParam(":createdDate", $travel->getCreatedDate());
-        $insert->bindParam(":startDate", $travel->getStartDate());
-        $insert->bindParam(":endDate", $travel->getEndDate());
-        $insert->bindParam(":price", $travel->getPrice());
-        $insert->bindParam(":location", $travel->getLocation());
-        $insert->bindParam(":capacity", $travel->getCapacity());
-        $insert->bindParam(":sold", $travel->getSold());
+        $insert->bindValue(":createdDate", $travel->getCreatedDate());
+        $insert->bindValue(":startDate", $travel->getStartDate());
+        $insert->bindValue(":endDate", $travel->getEndDate());
+        $insert->bindValue(":price", $travel->getPrice());
+        $insert->bindValue(":location", $travel->getLocation());
+        $insert->bindValue(":capacity", $travel->getCapacity());
+        $insert->bindValue(":sold", $travel->getSold());
 
         return $insert->execute();
     }
@@ -200,5 +200,44 @@ class CDatabase extends ADatabase
         $req->execute();
         return $req->fetchAll(PDO::FETCH_ASSOC);
 
+    }
+
+    function setSession($sessId, $userId)
+    {
+        $req = $this->pdo->prepare("INSERT INTO website.sessions (sessionId, userId, expireTime) VALUES (:sessId, :userId, :expireTime)");
+        $req->bindValue(":sessId",$sessId);
+        $req->bindValue(":userId",$userId);
+        $nextWeek = time() + (7 * 24 * 60 * 60);
+        $req->bindValue(":expireTime",date("Y-m-d H:i:s", $nextWeek));
+        $didExec = $req->execute();
+        return $didExec;
+    }
+
+    function deleteSession($sessId)
+    {
+        $req = $this->pdo->prepare("DELETE FROM website.sessions WHERE sessionId=:sessId");
+        $req->bindParam(":sessId", $sessId);
+        $didExec = $req->execute();
+        return $didExec;
+    }
+
+    function getSession($sessId)
+    {
+        $req = $this->pdo->prepare("SELECT * FROM website.sessions WHERE sessionId=:sessId");
+        $req->bindParam(":sessId", $sessId);
+        $didExec = $req->execute();
+        if (!$didExec) return NULL;
+        $res = $req->fetch(PDO::FETCH_ASSOC);
+        if(!$res) return NULL;
+
+        $expireTime = new DateTime($res["expireTime"]);
+        $now = new DateTime();
+        if($now > $expireTime) {
+            $this->deleteSession($sessId);
+            session_destroy();
+            session_start();
+            $this->setSession(session_id(), $res["userId"]);
+        }
+        return $res;
     }
 }
