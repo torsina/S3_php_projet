@@ -147,3 +147,21 @@ a:hover {
 .search-result-order-list {
 
 }
+
+.register-form-box{
+    width: 25%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 5vh;
+
+    padding: 1vh 1vh 1vh 1vh;
+
+    border-radius: 5px;
+    border-style: solid;
+    border-color: var(--blue-2);
+    text-align: left;
+}
+
+.register-form-box > form {
+    width: 100%;
+}

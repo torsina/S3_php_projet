@@ -16,6 +16,7 @@ abstract class ADatabase
 
     abstract function getUsers();
     abstract function getUser($id);
+    abstract function getUserByCredentials($login);
     abstract function createUser(User $user);
     abstract function editUser(User $user);
 

@@ -12,7 +12,7 @@
                         <ul class="search-result-text-list search-result-info-list">
                             <li><h2><?= $row["name"] ?></h2></li>
                             <li><?=$row["description"]?></li>
-                            <li><?=$row["location"]?></li>
+                            <li style="margin-top: 1vh;">Location: <?=$row["location"]?></li>
                         </ul>
                     </div>
                     <div class="col">

@@ -37,7 +37,7 @@ class CDatabase extends ADatabase
             $stmt = $this->pdo->query("SELECT COUNT(*) FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = 'website'");
             $isDbPresent = (bool)$stmt->fetchColumn();
 
-            $this->create();
+            //$this->create();
             $this->pdo->query("use website");
         } catch (PDOException $e) {
             print "Error !: " . $e->getMessage() . "<br/>";
@@ -79,9 +79,10 @@ class CDatabase extends ADatabase
     {
         $req = $this->pdo->prepare("SELECT * FROM website.travel WHERE id=:id");
         $req->bindParam(":id", $id);
-        $doesExist = $req->execute();
-        if (!$doesExist) return NULL;
+        $didExec = $req->execute();
+        if (!$didExec) return NULL;
         $res = $req->fetch(PDO::FETCH_ASSOC);
+        if(!$res) return NULL;
 
         $travel = new Travel($this);
         $travel->initialize($res["id"],
@@ -139,9 +140,23 @@ class CDatabase extends ADatabase
     {
         $req = $this->pdo->prepare("SELECT * FROM website.user WHERE id=:id");
         $req->bindParam(":id", $id);
-        $doesExist = $req->execute();
-        if (!$doesExist) return NULL;
+        $didExec = $req->execute();
+        if (!$didExec) return NULL;
         $res = $req->fetch(PDO::FETCH_ASSOC);
+        if(!$res) return NULL;
+
+        $user = new User($this);
+        $user->initialize($res["id"], $res["firstName"], $res["lastName"], $res["email"], $res["password"], $res["displayName"], $res["permission"]);
+        return $user;
+    }
+
+    function getUserByCredentials($login) {
+        $req = $this->pdo->prepare("SELECT * FROM website.user WHERE email=:email");
+        $req->bindValue(":email", $login);
+        $didExec = $req->execute();
+        if (!$didExec) return NULL;
+        $res = $req->fetch(PDO::FETCH_ASSOC);
+        if(!$res) return NULL;
 
         $user = new User($this);
         $user->initialize($res["id"], $res["firstName"], $res["lastName"], $res["email"], $res["password"], $res["displayName"], $res["permission"]);
@@ -155,19 +170,21 @@ class CDatabase extends ADatabase
      */
     function createUser(User $user)
     {
+        print_r(" checking if user exists");
         // check that user exists
-        $isUserRegistered = $this->getUser($user->getId());
-        if ($isUserRegistered == NULL) return false;
+        $isUserRegistered = $this->getUserByCredentials($user->getEmail());
+        if ($isUserRegistered != NULL) return false;
+        print_r(" user doesn't exist");
 
         $insert = $this->pdo->prepare("INSERT INTO website.user (id, firstName, lastName, displayName, email, password, permission) VALUES "
             . "(:id, :firstName, :lastName, :displayName, :email, :password, :permission)");
-        $insert->bindParam(":id", $user->getId());
-        $insert->bindParam(":firstName", $user->getFirstName());
-        $insert->bindParam(":lastName", $user->getLastName());
-        $insert->bindParam(":displayName", $user->getDisplayName());
-        $insert->bindParam(":email", $user->getEmail());
-        $insert->bindParam(":password", $user->getPassword());
-        $insert->bindParam(":permission", $user->getPermission());
+        $insert->bindValue(":id", $user->getId());
+        $insert->bindValue(":firstName", $user->getFirstName());
+        $insert->bindValue(":lastName", $user->getLastName());
+        $insert->bindValue(":displayName", $user->getDisplayName());
+        $insert->bindValue(":email", $user->getEmail());
+        $insert->bindValue(":password", $user->getPassword());
+        $insert->bindValue(":permission", $user->getPermission());
         return $insert->execute();
 
     }

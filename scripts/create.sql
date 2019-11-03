@@ -36,7 +36,7 @@ CREATE TABLE user (
     displayName VARCHAR(100) NULL,
     email VARCHAR(50) NOT NULL,
     password CHAR(128) NOT NULL, -- size of sha512 hash
-    permission INTEGER,
+    permission INTEGER NOT NULL DEFAULT 0,
 
     PRIMARY KEY(id)
 );

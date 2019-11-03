@@ -6,6 +6,10 @@ Uniquement besoin de lancer un serveur php à la racine du projet et avoir un se
 
 ETA 20/10/2019: Pour l'instant, la base de donnée est regénérée à chaque chargement de la page index, ce comportement disparaitra une fois le panneau d'administration développé
 
+Comptes:
+`email:pass`
++ admin: `root@root.com:root`
++ utilisateur: `foo@bar.com:foo`
 ## sprints
 ### 1:
 + En tant qu’utilisateur, je veux voir les voyages disponibles afin de choisir un voyage
@@ -39,7 +43,7 @@ Le mot de passe utilisateur est salted avec la formule suivante:
 ```php
 // dans utils/datatypes/User.php
 
-$salt = hash("sha512", $this->id . $password);
+$salt = hash("sha512", $this->id);
 $this->password = hash("sha512", $password . $salt);
 ```
 où `$this->id` est un UUIDv4

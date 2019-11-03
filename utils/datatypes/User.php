@@ -23,12 +23,25 @@ class User
      * 1 = travel company
      * 2 = administrator
      */
-    private $permission;
+    private $permission = 0;
 
     // password is encrypted in the constructor
     function __construct(CDatabase $db)
     {
         $this->db = $db;
+    }
+
+    static function login(CDatabase $db, string $login, string $password) {
+        print_r("getting creds ");
+        $data = $db->getUserByCredentials($login);
+        if($data === NULL) return NULL;
+        print_r("user exists");
+        $salt = hash("sha512", $data->getId());
+        $hash = hash("sha512", $password.$salt);
+        print_r(" hash: ".$hash." ");
+        print_r(" password: ".$data->getPassword()." ");
+        if($hash !== $data->getPassword()) return false;
+        return $data;
     }
 
     /**
@@ -49,9 +62,9 @@ class User
             $this->lastName = htmlspecialchars($lastName);
             $this->displayName = $displayName == "" ? $this->firstName . " " . $this->lastName : htmlspecialchars($displayName);
             $this->email = htmlspecialchars($email);
-            $salt = hash("sha512", $this->id . $password);
+            $salt = hash("sha512", $this->id);
             $this->password = hash("sha512", $password . $salt);
-
+            print_r("created user object");
             $this->initialized = !!$this->db->createUser($this);
         }
         return $this->initialized;

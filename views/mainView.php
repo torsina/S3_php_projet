@@ -12,13 +12,13 @@
         </ol>
         <div class="carousel-inner">
             <div class="carousel-item active">
-                <img class="d-block w-100 carousel-img-1" src="images/venice.jpg" alt="First slide">
+                <img class="d-block w-100 carousel-img-1" src="/images/venice.jpg" alt="First slide">
             </div>
             <div class="carousel-item">
-                <img class="d-block w-100 carousel-img-2" src="images/paris_1.jpg" alt="Second slide">
+                <img class="d-block w-100 carousel-img-2" src="/images/paris_1.jpg" alt="Second slide">
             </div>
             <div class="carousel-item">
-                <img class="d-block w-100 carousel-img-3" src="images/new_york_1.jpg" alt="Third slide">
+                <img class="d-block w-100 carousel-img-3" src="/images/new_york_1.jpg" alt="Third slide">
             </div>
         </div>
         <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
@@ -30,13 +30,13 @@
             <span class="sr-only">Next</span>
         </a>
     </div>
-
+    <?php print_r($_SESSION)?>
     <!-- search bar -->
     <div class="search-bar">
         <div class="row justify-content-md-center">
             <form class="form-inline search-form" action="/travel">
                 <div class="col-md-auto search-form-line">
-                    <img src="images/search.svg" class="search-form-icon">
+                    <img src="/images/search.svg" class="search-form-icon" alt="">
                     <input class="form-control mr-sm-2" type="search" placeholder="Location" aria-label="Location"
                            name="search_location">
                 </div>
