@@ -126,9 +126,20 @@ class CDatabase extends ADatabase
         return $insert->execute();
     }
 
-    function editTravel(Travel $travel)
+    function editTravel($form)
     {
-        // TODO: Implement editTravel() method.
+        $check = $this->getTravel($form["id"]);
+        if(!$check) return NULL;
+        $req = $this->pdo->prepare("UPDATE website.travel SET name=:name, startDate=:startDate, endDate=:endDate, price=:price, location=:location, capacity=:capacity, description=:description WHERE id=:id");
+        $req->bindParam(":name",$form["name"]);
+        $req->bindParam(":startDate",$form["startDate"]);
+        $req->bindParam(":endDate",$form["endDate"]);
+        $req->bindParam(":price",$form["price"]);
+        $req->bindParam(":location",$form["location"]);
+        $req->bindParam(":capacity",$form["capacity"]);
+        $req->bindParam(":description",$form["description"]);
+        $req->bindParam(":id",$form["id"]);
+        return $req->execute();
     }
 
     function getUsers()
@@ -239,5 +250,42 @@ class CDatabase extends ADatabase
             $this->setSession(session_id(), $res["userId"]);
         }
         return $res;
+    }
+
+    function deleteTravel($id)
+    {
+        $req = $this->pdo->prepare("DELETE FROM website.travel WHERE id=:Id");
+        $req->bindParam(":Id", $id);
+        $didExec = $req->execute();
+        return $didExec;
+    }
+
+    function getTravelsByTraveler($userId)
+    {
+        $req = $this->pdo->prepare("SELECT * FROM website.traveler WHERE userId=:userId");
+        $req->bindParam(":userId", $userId);
+        $req->execute();
+        $res = $req->fetchAll(PDO::FETCH_ASSOC);
+        $result = [];
+        foreach ($res as $traveler) {
+            $reqTravel = $this->pdo->prepare("SELECT * FROM website.travel WHERE id=:id");
+            $reqTravel->bindParam(":id", $traveler["travelId"]);
+            $reqTravel->execute();
+            $resTravel = $reqTravel->fetch(PDO::FETCH_ASSOC);
+            $temp =  array_merge($resTravel, $traveler);
+            array_push($result, array_merge($resTravel, $temp));
+        }
+        return $result;
+    }
+
+    function orderTravel($userId, $travelId, $price)
+    {
+        $check = $this->getTravel($travelId);
+        if(!$check) return NULL;
+        $req = $this->pdo->prepare("INSERT INTO website.traveler (userId, travelId, price) VALUES (:userId, :travelId, :price)");
+        $req->bindParam(":userId", $userId);
+        $req->bindParam(":travelId", $travelId);
+        $req->bindParam(":price", intval($price));
+        return $req->execute();
     }
 }

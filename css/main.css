@@ -63,6 +63,17 @@ a:hover {
     border-color: var(--orange-2);
 }
 
+.btn-inline-orange {
+    color: #fff;
+    background-color: var(--orange-1);
+    border-color: var(--orange-2);
+}
+
+.btn-inline-orange:hover {
+    color: var(--orange-1);
+    background-color: #FFF;
+    border-color: var(--orange-2);
+}
 
 .carousel-inner > div {
     height: 60vh;
@@ -171,8 +182,6 @@ a:hover {
     margin-left: 5vh;
     margin-right: auto;
     margin-top: 5vh;
-
-
 
     border-radius: 5px;
     border-style: solid;

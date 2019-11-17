@@ -13,6 +13,7 @@ class ErrorController implements IController
                 break;
             case "permissionDenied":
                 $message = "You cannot perform this action.";
+                break;
         }
         global $model;
         $model = new ErrorModel($message);

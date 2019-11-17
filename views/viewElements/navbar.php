@@ -15,21 +15,35 @@
                 <a class="nav-link" href="#">Link</a>
             </li>
         </ul>
-        <div class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Log In
-            </a>
-            <div class="dropdown-menu dropdown-menu-right login" aria-labelledby="navbarDropdown">
-                <form class="form login-form" action="/api/login" method="post">
-                    <p class="h6">Email</p>
-                    <input class="form-control" type="email" name="login" placeholder="email" aria-label="email">
-                    <p class="h6">Password</p>
-                    <input class="form-control" type="password" name="password" placeholder="password" aria-label="password">
-                    <button class="btn btn-outline-blue" type="submit">Log in</button>
-                    <a href="/register"><p>Sign up</p></a>
-                </form>
+            <?php if(!isset($_SESSION) || !isset($_SESSION["user"])) : ?>
+            <div class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Log In
+                </a>
+                <div class="dropdown-menu dropdown-menu-right login" aria-labelledby="navbarDropdown">
+                    <form class="form login-form" action="/api/login" method="post">
+                        <p class="h6">Email</p>
+                        <input class="form-control" type="email" name="login" placeholder="email" aria-label="email">
+                        <p class="h6">Password</p>
+                        <input class="form-control" type="password" name="password" placeholder="password" aria-label="password">
+                        <button class="btn btn-outline-blue" type="submit">Log in</button>
+                        <a href="/register"><p>Sign up</p></a>
+                    </form>
+                </div>
             </div>
-        </div>
+            <?php else : ?>
+                <a class="nav-link" href="/logout" >
+                    Log out
+                </a>
+                <?php if($_SESSION["user"]["permission"] > 0) : ?>
+                    <a class="nav-link" href="/admin" >
+                        Admin page
+                    </a>
+                <?php endif; ?>
+                <a class="nav-link" href="member" >
+                    Member page
+                </a>
+            <?php endif; ?>
     </div>
 </nav>

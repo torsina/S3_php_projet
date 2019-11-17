@@ -52,6 +52,7 @@ class LoginController implements IController
                 // string $firstName, string $lastName, string $email, string $password, string $displayName = ""
                 $result = $user->create($_POST["firstName"], $_POST["lastName"], $_POST["email"], $_POST["password"], $_POST["displayName"]);
                 header('Location: /');
+                break;
         }
     }
 }

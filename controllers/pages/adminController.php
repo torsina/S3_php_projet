@@ -15,39 +15,8 @@ class AdminController implements IController
             && isset($_POST["add_price"])
             && isset($_POST["add_location"])
             && isset($_POST["add_capacity"])) {
-                $target_dir = "images/";
-                $target_file = $target_dir . basename($_FILES["add_image"]["name"]);
-                $uploadOk = 1;
-                $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-                // Check if image file is a actual image or fake image
-                $check = getimagesize($_FILES["add_image"]["tmp_name"]);
-                if ($check === false) {
-                    $uploadOk = 0;
-                }
-
-                // Check if file already exists
-                if (file_exists($target_file)) {
-                    $uploadOk = 0;
-                }
-                // Check file size
-                if ($_FILES["add_image"]["size"] > 500000) {
-                    $uploadOk = 0;
-                }
-                // Allow certain file formats
-                if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") {
-                    $uploadOk = 0;
-                }
-                // Check if $uploadOk is set to 0 by an error
-                if ($uploadOk == 0) {
-                    echo "Sorry, your file was not uploaded.";
-                    // if everything is ok, try to upload file
-                } else {
-                    if (move_uploaded_file($_FILES["add_image"]["tmp_name"], $target_file)) {
-                    } else {
-                        echo "Sorry, there was an error uploading your file.";
-                    }
-                }
-
+                $result = self::upload("add_image");
+                if(!$result) return;
 
                 $travel = new Travel($db);
                 $travel->create($_SESSION["user"]["id"],
@@ -63,9 +32,68 @@ class AdminController implements IController
                     0);
         }
 
+        if(isset($_POST)
+            && isset($_POST["edit_name"])
+            && isset($_POST["edit_id"])
+            && isset($_POST["edit_startDate"])
+            && isset($_POST["edit_endDate"])
+            && isset($_POST["edit_price"])
+            && isset($_POST["edit_location"])
+            && isset($_POST["edit_capacity"])
+            && isset($_POST["edit_description"])) {
+            $result = self::upload("edit_image");
+            $form = [];
+            $form["id"] = $_POST["edit_id"];
+            $form["name"] = htmlspecialchars($_POST["edit_name"]);
+            $form["startDate"] = date("Y-m-d", strtotime($_POST["edit_startDate"]));
+            $form["endDate"] = date("Y-m-d", strtotime($_POST["edit_endDate"]));
+            $form["price"] = htmlspecialchars($_POST["edit_price"]);
+            $form["location"] = htmlspecialchars($_POST["edit_location"]);
+            $form["capacity"] = htmlspecialchars($_POST["edit_capacity"]);
+            $form["description"] = htmlspecialchars($_POST["edit_description"]);
+            $db->editTravel($form);
+        }
+
+        if(isset($_GET) && isset($_GET["delete"])) {
+            $db->deleteTravel($_GET["delete"]);
+        }
+
 
         global $model;
-        $model = new AdminModel();
+        $model = new AdminModel($db->getTravels());
         include "views\adminView.php";
+    }
+
+    static function upload($imageName) {
+        if(!isset($_FILES[$imageName]) || !isset($_FILES[$imageName]["tmp_name"]) || $_FILES[$imageName]["tmp_name"] == "") return;
+        $target_dir = "images/";
+        $target_file = $target_dir . basename($_FILES[$imageName]["name"]);
+        $uploadOk = 1;
+        $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+        // Check if image file is a actual image or fake image
+        $check = getimagesize($_FILES[$imageName]["tmp_name"]);
+        if ($check === false) {
+            $uploadOk = 0;
+        }
+
+        // Check if file already exists
+        if (file_exists($target_file)) {
+            $uploadOk = 0;
+        }
+        // Check file size
+        if ($_FILES[$imageName]["size"] > 5000000) {
+            $uploadOk = 0;
+        }
+        // Allow certain file formats
+        if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") {
+            $uploadOk = 0;
+        }
+        // Check if $uploadOk is set to 0 by an error
+        if ($uploadOk == 0) {
+            return NULL;
+            // if everything is ok, try to upload file
+        } else {
+            if (!move_uploaded_file($_FILES[$imageName]["tmp_name"], $target_file)) return NULL;
+        }
     }
 }

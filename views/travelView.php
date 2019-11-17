@@ -1,7 +1,8 @@
 <?php include("views/viewElements/header.php") ?>
 <body>
     <?php include("views/viewElements/navbar.php") ?>
-    <?php foreach ($model->data as $row) : ?>
+    <?php print_r($_SERVER["REQUEST_URI"]);
+    foreach ($model->data as $row) : ?>
         <div class="search-result-box">
             <div class="search-result-container">
                 <div class="row justify-content-md-center">
@@ -17,8 +18,8 @@
                     </div>
                     <div class="col">
                         <ul class="search-result-text-list search-result-order-list">
-                            <li>PRICE</li>
-                            <li>COMMANDER</li>
+                            <li><?= $row["price"] ?></li>
+                            <li><form action="<?=$_SERVER["REQUEST_URI"]?>" method="post"><input type="hidden" name="id" value="<?= $row["id"] ?>"><input type="submit" value="Order"></form></li>
                         </ul>
                     </div>
                 </div>

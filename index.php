@@ -48,10 +48,27 @@ switch ($request[0]) {
         RegisterController::action($db, "");
         break;
     }
+    case 'member' : {
+        if(!isset($_SESSION) || !isset($_SESSION["user"])) {
+            header('Location: /');
+            break;
+        }
+        require_once("controllers/pages/memberController.php");
+        MemberController::action($db, "");
+        break;
+    }
     case 'api' :
         require_once("controllers/API/APIController.php");
         $next = $request;
         array_shift($next);
         APIController::action($db, $next);
+        break;
+    case "logout":
+        $db->deleteSession(session_id());
+        $_SESSION = []; //destroy all of the session variables
+        setcookie(session_name(),time() - 42000);
+        session_destroy();
+        header('Location: /');
+
         break;
 }
