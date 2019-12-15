@@ -22,10 +22,6 @@ $userController = new \app\controller\UserController();
 $adminController = new \app\controller\AdminController();
 
 switch ($request[0]) {
-    case "":
-    default:
-        $travelController->index();
-        break;
     case "api":
         if(isset($request[1])) {
             switch($request[1]) {
@@ -44,6 +40,7 @@ switch ($request[0]) {
                                 break;
                             case "delete":
                                 $apiTravelController->delete();
+                                break;
                         }
                     }
                     break;
@@ -51,7 +48,7 @@ switch ($request[0]) {
         }
         break;
     case "travel":
-        $travelController->getAll();
+        $travelController->getSearch();
         break;
     case "register":
         $loginController->register();
@@ -68,5 +65,9 @@ switch ($request[0]) {
         break;
     case "admin":
         if(\app\entity\Permission::canUseAdminPage())  $adminController->index();
+        break;
+    case "":
+    default:
+        $travelController->index();
         break;
 }

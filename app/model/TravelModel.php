@@ -29,6 +29,15 @@ class TravelModel extends Model
         return new Travel($data[0]);
     }
 
+    function findSearch($query) {
+        $data = $this->find(["conditions" => $query]);
+        $result = [];
+        foreach ($data as $ville) {
+            $result[] = new Travel($ville);
+        }
+        return $result;
+    }
+
     function createOne(Travel $data) {
         $check = $this->findOne($data->getId());
         if($check) return null;

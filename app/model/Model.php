@@ -52,7 +52,7 @@ class Model
         }
 
         // WHERE
-        if (isset($reqData["conditions"])) {
+        if (isset($reqData["conditions"]) && count($reqData["conditions"]) > 0) {
             $statement .= "WHERE ";
             $index = 0;
             foreach ($reqData["conditions"] as $column => $value) {
@@ -85,7 +85,7 @@ class Model
         }
 
         $statement .= ";";
-
+        //print_r($statement);
         $req = $this->connection->prepare($statement);
         $req->execute();
         return $req->fetchAll(PDO::FETCH_ASSOC);

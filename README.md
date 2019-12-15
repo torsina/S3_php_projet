@@ -25,9 +25,7 @@ Comptes:
 + En tant qu’utilisateur connecté, je veux voir les voyages que j’ai réserver
 
 ### 4:
-+ En tant qu’utilisateur connecté, je veux créer et enlever des voyages en tant que favoris
-+ En tant qu’utilisateur connecté, je veux voir mes voyages favoris dans une seule page
-
++ restructuration en MVC, creation d'une REST API pour Travel
 ## Explications
 
 Le site est entièrement rédigé en anglais, que ce soit pour le code ou pour l'html pour avoir une plus grande accessibilité.
