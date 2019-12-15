@@ -41,13 +41,9 @@ class LoginController
         if(isset($_POST["email"])) {
             $user = new User($_POST);
             $user->hashPassword();
-            print_r("doing missing value check<br>");
-            //print_r($user);
             if($user->isMissingValues()) return $this->failedRegister(self::REGISTER_MISSING_DATA);
-            print_r("passed missing value check<br>");
             $check = $this->userModel->findOneByMail($user->getEmail());
             if($check) return $this->failedRegister(self::REGISTER_MAIL_USED);
-            print_r("passed email check<br>");
             $this->userModel->createOne($user);
             $this->fillSession($user);
         }

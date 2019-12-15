@@ -143,10 +143,7 @@ class User
 
     public function getSaltedPassword($_password) {
         $_salt = hash("sha512", $this->getId());
-        print_r("<br>my salt: ".$_salt);
         $pass = hash("sha512", $_password.$_salt);
-        print_r("<br>my pass: ".$pass);
-        print_r("<br>real pass: ".$this->password);
         return $pass;
     }
 }

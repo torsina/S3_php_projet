@@ -54,7 +54,6 @@ class TravelModel extends Model
 
 
     function deleteOne($id) {
-        print_r($id);
         return $this->delete(["id" => $id]);
     }
 
