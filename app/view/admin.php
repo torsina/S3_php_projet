@@ -6,7 +6,8 @@
             <div class="nav nav-tabs" id="nav-tab" role="tablist">
                 <a class="nav-item nav-link" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab"
                    aria-controls="nav-home" aria-selected="true">Add travel</a>
-                <a class="nav-item nav-link active" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab"
+                <a class="nav-item nav-link active" id="nav-profile-tab" data-toggle="tab" href="#nav-profile"
+                   role="tab"
                    aria-controls="nav-profile" aria-selected="false">Edit travel</a>
             </div>
         </nav>
@@ -17,7 +18,7 @@
                         Travel creation
                     </div>
                     <div class="card-body">
-                        <form action="/travel/create" method="post" enctype="multipart/form-data">
+                        <form id="createForm">
                             <div class="form-group">
                                 <label for="name">Name</label>
                                 <input name="add_name" type="text" class="form-control" id="name"
@@ -60,7 +61,8 @@
                                        placeholder="75" required>
                             </div>
 
-                            <button class="btn btn-outline-blue" type="submit" name="add_travel">Register</button>
+                            <button class="btn btn-outline-blue" onclick="createTravel()" name="add_travel">Register
+                            </button>
                         </form>
                     </div>
 
@@ -92,37 +94,37 @@
                             </thead>
                             <tbody>
                                 <?php foreach ($model["travels"] as $key => $travel): ?>
-                                    <tr>
+                                    <tr id="editFormUp-<?= $key ?>">
                                         <th scope="row">
-                                            <form id="form<?= $key ?>" action="/travel/edit" method="post" enctype="multipart/form-data"><input type="hidden"
-                                                                                                           name="edit_id"
-                                                                                                           value="<?= $travel->getId() ?>"/>
-                                            </form>
                                         </th>
-                                        <td><input form="form<?= $key ?>" type="text" name="edit_name"
+                                        <td><input type="text" name="edit_name"
                                                    value="<?= $travel->getName() ?>" class="form-control" required/>
                                         </td>
-                                        <td><input form="form<?= $key ?>" type="file" name="edit_image" placeholder="foo"></td>
-                                        <td><input form="form<?= $key ?>" name="edit_startDate"
+                                        <td><input type="file" name="edit_image"
+                                                   placeholder="foo"></td>
+                                        <td><input name="edit_startDate"
                                                    id="edit_startDate_<?= $key ?>" data-provide="datepicker"
                                                    class="form-control" required></td>
-                                        <td><input form="form<?= $key ?>" name="edit_endDate"
+                                        <td><input name="edit_endDate"
                                                    id="edit_endDate_<?= $key ?>" data-provide="datepicker"
                                                    class="form-control" required></td>
-                                        <td><input form="form<?= $key ?>" type="number" step="0.01" name="edit_price"
+                                        <td><input type="number" step="0.01" name="edit_price"
                                                    value="<?= $travel->getPrice() ?>" class="form-control" required/>
                                         </td>
-                                        <td><input form="form<?= $key ?>" type="text" name="edit_location"
+                                        <td><input type="text" name="edit_location"
                                                    value="<?= $travel->getLocation() ?>" class="form-control"/></td>
-                                        <td><input form="form<?= $key ?>" type="number" name="edit_capacity"
+                                        <td><input type="number" name="edit_capacity"
                                                    value="<?= $travel->getCapacity() ?>" class="form-control"/></td>
-                                        <td><input form="form<?= $key ?>" type="text" name="edit_description"
+                                        <td><input type="text" name="edit_description"
                                                    value="<?= $travel->getDescription() ?>" class="form-control"/></td>
-                                        <td><input form="form<?= $key ?>" type="submit" name="edit" value="Edit"
-                                                   class="form-control"/></td>
-                                        <td><a href="admin?delete=<?= $travel->getId() ?>" style="text-decoration: none">
-                                                <button class="form-control btn-inline-orange">Delete</button>
-                                            </a></td>
+                                        <td><input type="button" name="edit" value="Edit"
+                                                   class="form-control" onclick="editTravel('editFormUp-<?= $key ?>')"></td>
+                                        <td>
+                                            <form id="deleteForm-<?= $travel->getId() ?>">
+                                                <input type="hidden" name="id" value="<?= $travel->getId() ?>"/>
+                                                <button class="form-control btn-inline-orange" onclick="deleteTravel(this)">Delete</button>
+                                            </form>
+                                        </td>
                                     </tr>
                                     <script type="text/javascript">
                                         $(function () {

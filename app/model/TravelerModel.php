@@ -64,6 +64,9 @@ class TravelerModel extends Model
         return $this->edit($query);
     }
 
+    function deleteAllFromTravel($travelId) {
+        return $this->delete(["travelId" => $travelId]);
+    }
 
     function deleteOne($id)
     {

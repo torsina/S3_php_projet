@@ -23,12 +23,17 @@ class Permission
 
     static public function canCreateTravel() {
         if(!self::check()) return false;
-        return $_SESSION["user"]["permission"] >= self::Administrator;
+        return $_SESSION["user"]["permission"] >= self::Advertiser;
     }
 
     static public function canEditTravel() {
         if(!self::check()) return false;
-        return $_SESSION["user"]["permission"] >= self::Administrator;
+        return $_SESSION["user"]["permission"] >= self::Advertiser;
+    }
+
+    static public function canDeleteTravel() {
+        if(!self::check()) return false;
+        return $_SESSION["user"]["permission"] >= self::Advertiser;
     }
 
     static public function canOrderTravel() {

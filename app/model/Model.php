@@ -116,7 +116,7 @@ class Model
         $index = 0;
         foreach ($data["conditions"] as $column => $value) {
             $statement .= $column . "='" . $value . "'";
-            if ($index < count($data["conditions"])) {
+            if ($index < count($data["conditions"]) - 1) {
                 $statement .= ", ";
             } else {
                 $statement .= " ";
@@ -163,7 +163,6 @@ class Model
             $index++;
         }
 
-        print_r("<br>".$statement);
         $req = $this->connection->prepare($statement);
         return $req->execute();
     }

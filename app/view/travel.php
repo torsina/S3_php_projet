@@ -20,7 +20,12 @@
                         <ul class="search-result-text-list search-result-order-list">
                             <li><?= $row["travel"]["price"] ?> €</li>
                             <li>Owned by: <?=$row["displayName"]?></li>
-                            <li><form action="<?=$model["data"]["orderFormUrl"]?>" method="post"><input type="hidden" name="id" value="<?= $row["travel"]["id"] ?>"><input type="submit" value="Order"></form></li>
+                            <li>
+                                <form id="form-<?=$row["travel"]["id"]?>"">
+                                    <input type="hidden" name="id" value="<?= $row["travel"]["id"] ?>">
+                                    <input name="btnSubmit" type="button" value="Order" onclick="orderTravel(this)">
+                                </form>
+                            </li>
                         </ul>
                     </div>
                 </div>

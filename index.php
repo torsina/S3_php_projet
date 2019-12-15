@@ -20,26 +20,38 @@ $model = [];
 $travelController = new \app\controller\TravelController();
 $userController = new \app\controller\UserController();
 $adminController = new \app\controller\AdminController();
+
 switch ($request[0]) {
     case "":
     default:
         $travelController->index();
         break;
-    case "travel":
-        if (isset($request[1])) {
-            switch ($request[1]) {
-                case "order":
-                    $travelController->order();
-                    break;
-                case "create":
-                    if(\app\entity\Permission::canCreateTravel()) $travelController->create();
-                    break;
-                case "edit":
+    case "api":
+        if(isset($request[1])) {
+            switch($request[1]) {
+                case "travel":
+                    $apiTravelController = new \app\controller\api\TravelController();
+                    if(isset($request[2])) {
+                        switch ($request[2]) {
+                            case "order":
+                                $apiTravelController->order();
+                                break;
+                            case "create":
+                                $apiTravelController->create();
+                                break;
+                            case "edit":
+                                $apiTravelController->edit();
+                                break;
+                            case "delete":
+                                $apiTravelController->delete();
+                        }
+                    }
                     break;
             }
-        } else {
-            $travelController->getAll();
         }
+        break;
+    case "travel":
+        $travelController->getAll();
         break;
     case "register":
         $loginController->register();

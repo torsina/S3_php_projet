@@ -17,6 +17,7 @@ class ApiController
     protected $travelerModel;
     protected $sessionModel;
 
+    const ERROR_CODE_RETURN = -1;
 
     use TypeHinting;
 
@@ -30,14 +31,14 @@ class ApiController
 
     public function finish($errorCode, $data) {
         require_once("app/view/api.php");
-        return null;
+        return self::ERROR_CODE_RETURN;
     }
 
     static function uploadImage($imageName) {
         if(!isset($_FILES[$imageName]) || !isset($_FILES[$imageName]["tmp_name"]) || $_FILES[$imageName]["tmp_name"] == "") return;
         $target_dir = "images/";
         $target_file = $target_dir . htmlspecialchars(basename($_FILES[$imageName]["name"]));
-        $uploadOk = false;
+        $uploadOk = true;
         $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
         // Check if image file is a actual image or fake image
         $check = getimagesize($_FILES[$imageName]["tmp_name"]);
@@ -45,10 +46,6 @@ class ApiController
             $uploadOk = 0;
         }
 
-        // Check if file already exists
-        if (file_exists($target_file)) {
-            $uploadOk = false;
-        }
         // Check file size
         if ($_FILES[$imageName]["size"] > 5000000) {
             $uploadOk = false;

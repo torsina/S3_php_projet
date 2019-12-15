@@ -31,9 +31,9 @@ class TravelModel extends Model
 
     function createOne(Travel $data) {
         $check = $this->findOne($data->getId());
-        if(!$check) return null;
+        if($check) return null;
         $data = $data->export();
-        $this->save($data);
+        return $this->save($data);
     }
 
     function updateOne(Travel $data) {
@@ -45,6 +45,7 @@ class TravelModel extends Model
 
 
     function deleteOne($id) {
+        print_r($id);
         return $this->delete(["id" => $id]);
     }
 
